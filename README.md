@@ -6,17 +6,14 @@
 2.增加多机同时嗅探支持
 
 ##依赖
-1.python
-
-2.pyhton-pip
-
-3.python-mysqldb
-
-4.Apache or nginx
-5.php
-6.php-pdo-mysql
-7.mysql
-8.butterfly(建议源码安装)
+1.python<br>
+2.pyhton-pip<br>
+3.python-mysqldb<br>
+4.Apache or nginx<br>
+5.php<br>
+6.php-pdo-mysql<br>
+7.mysql<br>
+8.butterfly(建议源码安装)<br>
 
 ##使用方法
 1.安装所有依赖
