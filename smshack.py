@@ -229,17 +229,22 @@ if __name__ == '__main__':
 	print "[*]Sniffer Loading..."
 	print "[*]Press Ctrl+C to Exit."
 	try:
+		child3 =[]
 		q = Queue.Queue()
 		t = threading.Thread(target=handle_message, name="handle_message_thread", kwargs={'messages':q})
 		t.daemon = True
 		t.start()
 		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 		s.bind(('0.0.0.0', 4729))
+		file_ob = "~/osmocom-bb"
+		file_ob = raw_input("[!]Input Osmocom-BB Path[default is ~/osmocom-bb]:")
+		file_hack = "~/GSM-Sniffer"
+		file_hack = raw_input("[!]Input \"gsmhack\" older Path[default is ~/GSM-Sniffer/gsmhack]:")
 		num = int(raw_input("[*]Input Your Device Number:"))
 		time.sleep(0.5)
 		for i in range(0,num):
 			print "--------Setting "+str(i+1)+" Device ------------"
-			child1 = subprocess.Popen(["/home/gsm/gsmsniff/gsmhack/start_osmbb.sh",str(i)],stderr=open('/home/gsm/gsmsniff/gsmhack/start.err'+str(i),'w'),stdout=open('/home/gsm/gsmsniff/gsmhack/start.log'+str(i),'w'))
+			child1 = subprocess.Popen([file_hack+"/start_osmbb.sh",file_ob,str(i)],stderr=open(file_hack+'/start.err'+str(i),'w'),stdout=open('/home/gsm/gsmsniff/gsmhack/start.log'+str(i),'w'))
 			print "[+]Load PID: " + str(child1.pid)
 			print "[*]Plugin C118,Click the Button Please"
 			flag = raw_input("[!]Osmocom-BB Load Done?(Y/N)")
@@ -250,7 +255,7 @@ if __name__ == '__main__':
 				exit(1)
 			if (i==0):
 				print "[!]Scaning ..."
-				child2 = subprocess.Popen(["/home/gsm/gsmsniff/gsmhack/scan.sh"],stderr=subprocess.PIPE,stdout=subprocess.PIPE)
+				child2 = subprocess.Popen([file_hack+"/scan.sh",file_ob],stderr=subprocess.PIPE,stdout=subprocess.PIPE)
 				print "[+]Load PID: " + str(child2.pid)
 				scanlog = child2.communicate()
 				child2.wait()
@@ -262,8 +267,8 @@ if __name__ == '__main__':
 			print "[!]Sniffing ARFCN: %d.." % int(scanarf)
 			os.system("ifconfig lo:"+str(i+1)+" down 2>/dev/null")
 			os.system("ifconfig lo:"+str(i+1)+" 10.0.0."+str(i+1))
-			sniffinfo = ["/home/gsm/osmocom-bb/src/host/layer23/src/misc/ccch_scan","-i","10.0.0"+str(i+1),"-a",scanarf]
-			child3 =  subprocess.Popen(sniffinfo,stderr=open('/home/gsm/gsmsniff/gsmhack/sniff.err','w'),stdout=open('/home/gsm/gsmsniff/gsmhack/sniff.log','w'))
+			sniffinfo = [file_ob+"/src/host/layer23/src/misc/ccch_scan","-i","10.0.0"+str(i+1),"-a",scanarf]
+			child3.append(subprocess.Popen(sniffinfo,stderr=open(file_hack+'/sniff.err','w'),stdout=open(file_hack+'/sniff.log','w')))
 			print "[+]Load PID: " + str(child3.pid)
 		print "[*]%s Start Monitor." % GetCurrentTime()
 		print "[*]Enjoy GSM Sniffing!"
@@ -276,8 +281,8 @@ if __name__ == '__main__':
 		try:
 			child1.kill()
 			child2.kill()
-			child3.kill()
+			for i in child3:
+				i.kill()
 			print "[-]Kill Process Done."
 		except:
 			pass
-

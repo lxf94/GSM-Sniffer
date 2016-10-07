@@ -1,1 +1,0 @@
-/root/osmocom-bb/src/host/layer23/src/misc/ccch_scan -i 127.0.0.1 -a $1
