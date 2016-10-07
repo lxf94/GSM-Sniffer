@@ -12,7 +12,7 @@
 4.Apache or nginx<br>
 5.php<br>
 6.php-pdo-mysql<br>
-7.mysql<br>
+7.mysql  
 8.butterfly(建议源码安装)<br>
 
 ##使用方法
