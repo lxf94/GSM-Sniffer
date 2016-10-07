@@ -7,8 +7,11 @@
 
 ##依赖
 1.python
+
 2.pyhton-pip
+
 3.python-mysqldb
+
 4.Apache or nginx
 5.php
 6.php-pdo-mysql
